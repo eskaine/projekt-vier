@@ -11,10 +11,11 @@ export const axiosGet = async (url) => {
   }
 };
 
-export const axiosPost = async (url, data) => {
+export const axiosPost = async (url, data, cb) => {
   try {
     const res = await axios.post(url, data);
     if (res.status === 200) {
+      cb();
       if (res.data) {
         return res.data;
       }
@@ -25,9 +26,12 @@ export const axiosPost = async (url, data) => {
   }
 };
 
-export const axiosPatch = async (url, data) => {
+export const axiosPatch = async (url, data, cb) => {
   try {
     const res = await axios.patch(url, data);
+    if (res.status === 200) {
+      cb();
+    }
     return res;
   } catch (error) {
     return null;
