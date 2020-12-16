@@ -76,6 +76,7 @@ router.patch('/confirm/:orderNo', async (req, res) => {
       obj.progress = 'Confirmed';
       return obj;
     });
+    order.status = 'Confirmed';
     await order.save();
     res.status(200).json({ message: `Order ${req.params.orderNo} confirmed` });
   } catch (err) {

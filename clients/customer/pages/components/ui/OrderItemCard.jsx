@@ -5,7 +5,7 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 function OrderItemCard({ order, number }) {
   const [open, setOpen] = useState(false);
-  const [progressBar, setProgressBar] = useState();
+  const [progressBar, setProgressBar] = useState(<div className="progress-bar2" />);
 
   const orderDetails = order.items.map((el) => (
     <div className="cart-item-card" key={el._id}>
@@ -24,14 +24,12 @@ function OrderItemCard({ order, number }) {
   }
 
   function getProgress() {
-    if (order.status === 'Requested') {
-      setProgressBar(<div className="progress-bar2" />);
-    } else if (order.status === 'Confirmed') {
-      setProgressBar(<div className="progress-bar2" style={{ width: '35%' }} />)
+    if (order.status === 'Confirmed') {
+      setProgressBar(<div className="progress-bar2" style={{ width: '35%' }} />);
     } else if (order.status === 'Preparing') {
-      setProgressBar(<div className="progress-bar2" style={{ width: '65%' }} />)
+      setProgressBar(<div className="progress-bar2" style={{ width: '65%' }} />);
     } else if (order.status === 'Completed') {
-      setProgressBar(<div className="progress-bar2" style={{ width: '100%' }} />)
+      setProgressBar(<div className="progress-bar2" style={{ width: '100%' }} />);
     }
   }
 
