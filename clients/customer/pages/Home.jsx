@@ -44,7 +44,7 @@ function Home({ pageMode, setPageMode, getSessionData, sessionData, cartData }) 
     );
   }
   if (pageMode.mode === 'orders') {
-    return <Orders sessionData={sessionData} />;
+    return <Orders sessionData={sessionData} pageMode={pageMode} />;
   }
   return <Categories openCategory={openCategory} menuData={menuData} />;
 }

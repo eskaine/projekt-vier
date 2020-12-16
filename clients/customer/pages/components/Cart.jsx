@@ -8,7 +8,7 @@ import { axiosPatch } from '../../../shared/helpers/api';
 import { calculateTotal } from '../../../shared/helpers/func';
 import CartItemCard from './ui/CartItemCard';
 
-function Cart({ cartData, sessionId, getSessionData }) {
+function Cart({ cartData, sessionId, getSessionData, pageMode }) {
   const [expandCart, setExpandCart] = useState(false);
   const { tableno } = useParams();
 
@@ -16,22 +16,34 @@ function Cart({ cartData, sessionId, getSessionData }) {
     setExpandCart(!expandCart);
   }
 
+  function decideCartClass(mode, cartCount) {
+    if (mode === 'orders' || cartCount === 0) {
+      return 'cart-div hidden';
+    }
+    if (expandCart === true) {
+      return 'cart-div expand';
+    }
+    return 'cart-div';
+  }
+
   let cartItems = '';
   let cartTotal = 0;
+  let divClass = 'cart-div hidden';
   if (cartData) {
     cartTotal = calculateTotal(cartData);
     cartItems = cartData.map((item) => <CartItemCard cartItem={item} key={item.dish.name} />);
+    divClass = decideCartClass(pageMode.mode, cartTotal);
   }
 
   async function placeOrder() {
-    await axiosPatch(`/api/orders/new/${sessionId}`);
+    await axiosPatch(`/api/orders/new/${sessionId}`, {}, () => setExpandCart(false));
     getSessionData(tableno);
     socket.transmit('cart');
     socket.transmit('order');
   }
 
   return (
-    <div className={expandCart === true ? 'cart-div expand' : 'cart-div'}>
+    <div className={divClass}>
       <div className="cart-header" onClick={() => toggleExpandCart()}>
         <h4>Shopping Cart</h4>
         <FontAwesomeIcon
@@ -56,6 +68,7 @@ Cart.propTypes = {
   cartData: PropTypes.array,
   sessionId: PropTypes.string,
   getSessionData: PropTypes.func,
+  pageMode: PropTypes.object,
 };
 
 export default Cart;

@@ -5,7 +5,7 @@ import socket from '../shared/helpers/socket';
 import Home from '../shared/components/Home';
 import Dashboard from './pages/Dashboard';
 
-function App() {
+function Service() {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
@@ -32,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default Service;
