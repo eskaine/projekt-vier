@@ -6,7 +6,7 @@ function OrderCard({ item, orderId, getAllOrders }) {
   const [status, setStatus] = useState({ button: '', class: '' });
 
   async function updateProgress() {
-    const res = await axiosPatch(`/api/orders/items/${orderId}`, {
+    await axiosPatch(`/api/orders/items/${orderId}`, {
       itemId: item._id,
     });
     getAllOrders();
@@ -37,7 +37,9 @@ function OrderCard({ item, orderId, getAllOrders }) {
         <h3 className="pill">x{item.quantity}</h3>
       </div>
       <div className="flexbox btn-container">
-        <button className={status.class} onClick={updateProgress}>{status.button}</button>
+        <button className={status.class} onClick={updateProgress} type="button">
+          {status.button}
+        </button>
         <div className="sm-container">
           <p>Status: {item.progress}</p>
         </div>

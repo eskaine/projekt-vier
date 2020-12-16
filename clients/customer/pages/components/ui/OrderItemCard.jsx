@@ -25,11 +25,11 @@ function OrderItemCard({ order, number }) {
 
   function getProgress() {
     if (order.status === 'Confirmed') {
-      setProgressBar(<div className="progress-bar2" style={{ width: '35%' }} />)
+      setProgressBar(<div className="progress-bar2" style={{ width: '35%' }} />);
     } else if (order.status === 'Preparing') {
-      setProgressBar(<div className="progress-bar2" style={{ width: '65%' }} />)
+      setProgressBar(<div className="progress-bar2" style={{ width: '65%' }} />);
     } else if (order.status === 'Completed') {
-      setProgressBar(<div className="progress-bar2" style={{ width: '100%' }} />)
+      setProgressBar(<div className="progress-bar2" style={{ width: '100%' }} />);
     }
   }
 
