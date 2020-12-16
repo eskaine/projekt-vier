@@ -9,12 +9,18 @@ function Dashboard() {
 
   async function getAllOrders() {
     const res = await axiosGet('/api/orders/active');
+    const curOrders = res.orders.filter(
+      (el) => el.status === 'Confirmed' || el.status === 'Preparing'
+    );
+    // console.log('curOrders:', curOrders);
     const arr = [];
-    res.orders.forEach((order) => {
-      const obj = { orderId: order._id };
-      order.items.forEach((item) => {
+    curOrders.forEach((el) => {
+      el.items.forEach((item) => {
         if (item.progress === 'Confirmed' || item.progress === 'Preparing') {
-          obj.item = item;
+          const obj = {
+            orderId: el._id,
+            item,
+          };
           arr.push(obj);
         }
       });
@@ -26,13 +32,9 @@ function Dashboard() {
     getAllOrders();
   }, []);
 
-  console.log(orders);
-
-  const orderCards = orders.map((el, i) => {
-    if (el.item.progress === 'Confirmed' || el.item.progress === 'Preparing') {
-      return <OrderCard item={el.item} key={i} orderId={el.orderId} getAllOrders={getAllOrders} />;
-    }
-  });
+  const orderCards = orders.map((el, i) => (
+    <OrderCard item={el.item} key={i} orderId={el.orderId} getAllOrders={getAllOrders} />
+  ));
 
   return (
     <div className="kitchen-container">
